@@ -1,0 +1,253 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600&display=swap");
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #191919;
+    font-family: "Poppins", sans-serif;
+    margin: 0;
+}
+
+header {
+    background-color: #232323;
+    padding: 1rem;
+    overflow: hidden;
+    margin-bottom: 80px;
+}
+
+h1 {
+    color: #fff;
+    font-size: 2rem;
+    float: left;
+    margin: auto 30px;
+    
+}
+
+.search {
+    background-color: transparent;
+    border: 2px solid #8E61E2;
+    border-radius: 50px;
+    color: #fff;
+    font-family: inherit;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    float: right;
+}
+
+.search::placeholder {
+    color: rgb(139, 139, 139);
+}
+
+.search:focus {
+    background-color: #8E61E2;
+    outline: none;
+}
+
+main {
+    display: grid;
+    width: 70%;
+    justify-content: space-between;
+    margin-left: auto;
+    margin-right: auto;
+    grid-template-columns: repeat(5, 1fr);
+    grid-gap: 50px;
+    grid-auto-rows: minmax(100px, auto);
+
+}
+
+.movie {
+    background-color:#8E61E2;
+    border-radius: 15px;
+    box-shadow: 0 4px 5px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    position: relative;
+}
+
+.movie img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.movie-info {
+    color: #eee;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    padding: 0.5rem 1rem 1rem;
+    letter-spacing: 0.5px;
+    height: 50px;
+}
+
+.movie-info h3 {
+    margin: 0;
+    font-size: 90%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;  
+}
+
+.movie-info p {
+    margin: 0;
+    font-size: 90%;
+}
+
+.fa-star {
+    color: rgb(255, 230, 0);
+}
+
+span {
+    background-color: #22254b;
+    border-radius: 3px;
+    font-weight: bold;
+    padding: 0.25rem 0.5rem;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+span.green {
+    color: rgb(39, 189, 39);
+}
+
+span.orange {
+    color: orange;
+}
+
+span.red {
+    color: rgb(189, 42, 42);
+}
+
+.overview {
+    background-color: #fff;
+    padding: 2rem;
+    position: absolute;
+    border-radius: 15px;
+    max-height: 100%;
+    overflow: auto;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    transform: translateY(101%);
+    transition: transform 0.3s ease-in;
+}
+
+.overview h3 {
+    margin-top: 0;
+}
+
+.movie:hover .overview {
+    transform: translateY(0);
+}
+
+.no_movies{
+    text-align: center;
+    color: #fff;
+    font-size: 30px;
+    grid-column: 1/-1;
+}
+
+.pagination {
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 80px;
+}
+
+.pagination button {
+    color: #fff;
+    float: left;
+    padding: 12px 16px;
+    text-decoration: none;
+    border-radius: 100%;
+    transition: background-color .3s;
+    border: 1px solid #ddd;
+    margin: 0 4px;
+}
+  
+.pagination button.active2 {
+    background-color: #8E61E2;
+    border: 1px solid #8E61E2;
+}
+
+.pagination button.active2:hover {
+    background-color: #fff;
+    border: 1px solid #8E61E2;
+    color: #191919;
+}
+
+.pagination button.active2:disabled {
+    background-color: rgb(177, 177, 177);
+    border: 1px solid #8E61E2;
+    color: #191919;
+    cursor: not-allowed;
+}
+
+
+
+footer {
+    background: #232323;
+    display: flex;
+    flex-direction: column;
+    margin-top: 80px;
+}
+  
+footer p {
+    line-height: 1.6;
+    font-size: 1.1rem;
+    color: #fff;
+    text-align: center;
+}
+
+footer a {
+    color: #8E61E2;
+    text-decoration: none;
+}
+
+@media screen and (max-width: 1733px) {
+    main {
+        grid-template-columns: repeat(4, 1fr);
+        grid-gap: 30px;
+        grid-auto-rows: minmax(100px, auto);
+    }
+
+    .overview {
+        font-size: 12px;
+    }
+    
+    .overview h3 {
+        font-size: 16px;
+    }
+
+}
+
+@media screen and (max-width: 1000px) {
+    main {
+        grid-template-columns: repeat(2, 1fr);
+        grid-gap: 30px;
+        grid-auto-rows: minmax(100px, auto);
+    }
+
+    .movie-info h3 {
+        font-size: 70%;
+    }
+
+    .movie-info p {
+        font-size: 70%;
+    }
+}
+
+@media screen and (max-width: 540px) {
+    h1 {
+        margin: auto 0;
+        width: 100%;
+        text-align: center;
+    }
+    
+    .search {
+        margin: auto 0;
+        width: 100%;
+    }
+}

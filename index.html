@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Movie App</title>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
+        <link rel="stylesheet" href="style.css" />
+        <script src="script.js" defer></script>
+    </head>
+    <body id="body">
+        <header>
+            <a href="index.html"><h1 id="title">Movie Search</h1></a>
+            <form id="form">
+                <input type="text" id="search" placeholder="Search" class="search"/>
+            </form>
+        </header>
+        <main id="main"></main>
+
+        <div class="pagination">
+            <button id="btn_prev" onclick="prevPage()" class="active2"><i class="fas fa-angle-left"></i></button>
+            <button id="btn_next" onclick="nextPage()" class="active2"><i class="fas fa-angle-right"></i></button>
+        </div>
+
+        <footer>
+            <p>Made with ❤ by <a href="https://github.com/seyon123" target="_blank" rel="noopener noreferrer">Seyon Rajagopal</a></p>
+        </footer>
+    </body>
+</html>
