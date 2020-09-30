@@ -17,7 +17,6 @@ const btn_prev = document.getElementById("btn_prev");
 
 var current_page = 1;
 var numPages = 0;
-
 var searchTerm ="";
 
 // initially get fav movies
@@ -84,30 +83,33 @@ function showMovies(movies) {
         movies.forEach((movie) => {
             const { poster_path, title, vote_average, overview, release_date, genre_ids } = movie;
 
-            const movieEl = document.createElement("div");
-            movieEl.classList.add("movie");
-            
-            movieEl.innerHTML = `
-            <span class="${getClassByRate(
-                vote_average
-            )}"><i class="fas fa-star"></i> ${vote_average}</span>    
-            <img class="poster"
-                    src="${checkImageExists(poster_path)}"
-                    alt="${title}"/>
+            (async function(){
+                var genre = await findGenre(genre_ids.slice(0,1).shift());
+
+                const movieEl = document.createElement("div");
+                movieEl.classList.add("movie");
                 
-            <div class="movie-info">
-                <h3>${title}</h3> <p>${genre_ids.slice(0,1).shift()}</p><p class="year"><b>${release_date.slice(0, release_date.indexOf('-'))}</b></p>
-            </div>
-            <div class="overview" >
-            <h3>${title}</h3>
-                <h3>Overview:</h3>
-                ${overview}
-            </div>
+                movieEl.innerHTML = `
+                <span class="${getClassByRate(
+                    vote_average
+                )}"><i class="fas fa-star"></i> ${vote_average}</span>    
+                <img class="poster"
+                        src="${checkImageExists(poster_path)}"
+                        alt="${title}"/>
+                    
+                <div class="movie-info">
+                    <h3>${title}</h3> <p>${genre}</p><p class="year"><b>${release_date.slice(0, release_date.indexOf('-'))}</b></p>
+                </div>
+                <div class="overview" >
+                <h3>${title}</h3>
+                    <h3>Overview:</h3>
+                    ${overview}
+                </div>
+                    
+                `;
                 
-            `;
-            
-            main.appendChild(movieEl);
-        
+                main.appendChild(movieEl);
+            })()
             
         });
     }else{
@@ -138,9 +140,25 @@ function showGenres(genres) {
         genreEl.value = (id);
         genreEl.innerHTML = `${name}`;
         genresd.appendChild(genreEl);
-    
         
     });
+}
+
+async function findGenre(gid) {
+    const resp = await fetch(GENRESAPI);
+    const respData = await resp.json();
+    var genress = respData.genres
+    var genreg = "";
+    console.log(genress[0].id == gid);
+
+    for (let i = 0; i < genress.length; i++) {
+        if (gid == genress[i].id ){
+            console.log(genress[i].name);
+            return genress[i].name;
+        }
+        
+    }
+
 }
 
 function getClassByRate(vote) {
