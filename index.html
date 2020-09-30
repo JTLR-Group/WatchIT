@@ -15,6 +15,31 @@
                 <input type="text" id="search" placeholder="Search" class="search"/>
             </form>
         </header>
+
+        <div id="toolbar">
+            <div>
+                Genres:       
+                <select id="genres">
+                    <option class="genre" value="">All Genres</option>
+                </select>
+            </div>
+            <div>
+                Sort By:      
+                <select id="sortby">
+                    <option class="sort" value="popularity.desc">Popularity ▼</option>
+                    <option class="sort" value="popularity.asc">Popularity ▲</option>
+                    <option class="sort" value="release_date.desc">Release Date ▼</option>
+                    <option class="sort" value="release_date.asc">Release Date ▲</option>
+                    <option class="sort" value="revenue.desc">Earnings ▼</option>
+                    <option class="sort" value="revenue.asc">Earnings ▲</option>
+                </select>
+            </div>
+            <div>
+                Year:      
+                <input id="year" type="number" min="1900" max="2099" step="1" value="2020" />
+            </div>
+        </div>
+
         <main id="main"></main>
 
         <div class="pagination">

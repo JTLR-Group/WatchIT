@@ -1,7 +1,13 @@
-const APIURL ="https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=a18a4c3abe6c63b9d003880cedebf790";
-const SEARCHAPI ="https://api.themoviedb.org/3/search/movie?&api_key=a18a4c3abe6c63b9d003880cedebf790&query=";
+const APIURL = "https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=a18a4c3abe6c63b9d003880cedebf790";
+const DISCOVERSEARCH = "https://api.themoviedb.org/3/discover/movie?api_key=a18a4c3abe6c63b9d003880cedebf790";
+const GENRESAPI = "https://api.themoviedb.org/3/genre/movie/list?api_key=a18a4c3abe6c63b9d003880cedebf790&language=en-US"
+const SEARCHAPI = "https://api.themoviedb.org/3/search/movie?&api_key=a18a4c3abe6c63b9d003880cedebf790&query=";
 const IMGPATH = "https://image.tmdb.org/t/p/w1280";
 
+const toolbar = document.getElementById("toolbar");
+const genresd = document.getElementById("genres");
+const sortbyd = document.getElementById("sortby");
+const yeard = document.getElementById("year");
 const main = document.getElementById("main");
 const body = document.getElementById("body");
 const form = document.getElementById("form");
@@ -14,6 +20,11 @@ var numPages = 0;
 
 var searchTerm ="";
 
+// initially get fav movies
+console.log(DISCOVERSEARCH + "&sort_by=" + sortbyd.value + "&with_genres=" + genresd.value + "&primary_release_year=" + year.value + "&page=" + current_page);
+getMovies(DISCOVERSEARCH + "&sort_by=" + sortbyd.value + "&with_genres=" + genresd.value + "&primary_release_year=" + year.value + "&page=" + current_page);
+getGenres(GENRESAPI);
+
 function prevPage()
 {
     if (current_page > 1) {
@@ -21,7 +32,7 @@ function prevPage()
         if(searchTerm){
             getMovies(SEARCHAPI + searchTerm + "&page=" + current_page);
         }else{
-            getMovies(APIURL + "&page=" + current_page);
+            getMovies(DISCOVERSEARCH + "&sort_by=" + sortbyd.value + "&with_genres=" + genresd.value + "&primary_release_year=" + year.value + "&page=" + current_page);
         }
     }
 }
@@ -33,14 +44,11 @@ function nextPage()
         if(searchTerm){
             getMovies(SEARCHAPI + searchTerm + "&page=" + current_page);
         }else{
-            getMovies(APIURL + "&page=" + current_page);
+            getMovies(DISCOVERSEARCH + "&sort_by=" + sortbyd.value + "&with_genres=" + genresd.value + "&primary_release_year=" + year.value + "&page=" + current_page);
         }
         
     }
 }
-
-// initially get fav movies
-getMovies(APIURL + "&page=" + current_page);
 
 async function getMovies(url) {
     const resp = await fetch(url);
@@ -74,7 +82,7 @@ function showMovies(movies) {
     if (movies.length > 0){
 
         movies.forEach((movie) => {
-            const { poster_path, title, vote_average, overview, release_date } = movie;
+            const { poster_path, title, vote_average, overview, release_date, genre_ids } = movie;
 
             const movieEl = document.createElement("div");
             movieEl.classList.add("movie");
@@ -88,7 +96,7 @@ function showMovies(movies) {
                     alt="${title}"/>
                 
             <div class="movie-info">
-                <h3>${title}</h3> <p>[${release_date.slice(0, release_date.indexOf('-'))}]</p>
+                <h3>${title}</h3> <p>${genre_ids.slice(0,1).shift()}</p><p class="year"><b>${release_date.slice(0, release_date.indexOf('-'))}</b></p>
             </div>
             <div class="overview" >
             <h3>${title}</h3>
@@ -113,6 +121,27 @@ function showMovies(movies) {
     }
 }
 
+async function getGenres(url) {
+    const resp = await fetch(url);
+    const respData = await resp.json();
+    console.log(respData);
+    showGenres(respData.genres);
+}
+
+
+function showGenres(genres) {
+    genres.forEach((genre) => {
+        const { id, name } = genre;
+
+        const genreEl = document.createElement("option");
+        genreEl.classList.add("genre");
+        genreEl.value = (id);
+        genreEl.innerHTML = `${name}`;
+        genresd.appendChild(genreEl);
+    
+        
+    });
+}
 
 function getClassByRate(vote) {
     if (vote >= 8) {
@@ -125,6 +154,21 @@ function getClassByRate(vote) {
 }
 
 
+genresd.onchange = function() {
+    current_page = 1;
+    getMovies(DISCOVERSEARCH + "&sort_by=" + sortbyd.value + "&with_genres=" + genresd.value + "&primary_release_year=" + year.value + "&page=" + current_page);
+}
+
+sortbyd.onchange = function() {
+    current_page = 1;
+    getMovies(DISCOVERSEARCH + "&sort_by=" + sortbyd.value + "&with_genres=" + genresd.value + "&primary_release_year=" + year.value + "&page=" + current_page);
+}
+
+yeard.onchange = function() {
+    current_page = 1;
+    getMovies(DISCOVERSEARCH + "&sort_by=" + sortbyd.value + "&with_genres=" + genresd.value + "&primary_release_year=" + year.value + "&page=" + current_page);
+}
+
 form.addEventListener("input", (e) => {
     e.preventDefault();
     current_page = 1;
@@ -132,6 +176,7 @@ form.addEventListener("input", (e) => {
 
     if (searchTerm) {
         getMovies(SEARCHAPI + searchTerm + "&page=" + current_page);
+        toolbar.style.display = "none";
     }
 });
 
@@ -143,6 +188,7 @@ form.addEventListener("submit", (e) => {
 
     if (searchTerm) {
         getMovies(SEARCHAPI + searchTerm + "&page=" + current_page);
+        toolbar.style.display = "none";
         search.value = "";
     }
 });
